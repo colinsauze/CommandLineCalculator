@@ -1,0 +1,70 @@
+<project default="jar">
+
+   <!--setup some compiler stuff and stop ant complaining about whethere it should include a runtime or not-->
+    <presetdef name="javac">
+        <javac includeantruntime="false" />
+    </presetdef>
+    
+    <!--allow us to use environment variables-->
+   <property environment="env" />  
+    
+    <path id="junit.paths" >
+        <pathelement id="org.junit" location="${env.JUNIT_HOME}/junit4.jar"/>
+    </path>
+    
+    <path id="build.paths">
+        <pathelement path="bin"/>
+    </path>
+       
+
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="bin"/>
+        <javac srcdir="src" destdir="bin">
+            <classpath refid="junit.paths"/>           
+        </javac>
+    </target>
+    
+    <target name="jar" depends="compile">
+        
+        <jar destfile="CommandLineCalculator.jar" basedir="bin">
+	    <manifest>
+        	<attribute name="Main-Class" value="uk.ac.aber.dcs.CommandLineCalculator.CalculatorInterface"/>
+    	    </manifest>
+        </jar>
+    </target>
+    
+    
+    <target name="unittest" depends="compile">
+        <mkdir dir="testreports"/>
+        <junit haltonfailure="true" printsummary="true">
+            
+            <!--put the code we just compiled into the classpath-->
+            <classpath refid="build.paths"/>
+            
+            <!--put junit into the classpath-->
+            <classpath refid="junit.paths"/>
+                    
+            <!--make the output in XML format-->        
+            <formatter type="xml" />
+            
+            <!--run all classes with the name Test in them-->
+            <batchtest todir="testreports">
+                <fileset dir="src">
+                    <include name="**/*Test*.java" />
+                </fileset>
+            </batchtest>
+            
+        </junit>
+    </target>
+    
+    <target name="javadoc">
+          <mkdir dir="doc"/>
+          <javadoc sourcepath="src" destdir="doc"/>
+    </target>
+        
+</project>
+
