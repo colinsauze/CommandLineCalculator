@@ -9,7 +9,7 @@
    <property environment="env" />  
     
     <path id="junit.paths" >
-        <pathelement id="org.junit" location="${env.JUNIT_HOME}/junit4.jar"/>
+        <pathelement id="org.junit" location="${env.JUNIT_HOME}/junit.jar"/>
     </path>
     
     <path id="build.paths">
