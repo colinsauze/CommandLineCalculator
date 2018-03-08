@@ -23,7 +23,9 @@
 
     <target name="compile">
         <mkdir dir="bin"/>
-        <javac srcdir="src" destdir="bin">
+	<mkdir dir="classes"/>
+        <javac srcdir="src" destdir="bin" deprecation="true" destdir="classes">
+  	    <compilerarg value="-Xlint"/>
             <classpath refid="junit.paths"/>           
         </javac>
     </target>
